@@ -12,7 +12,8 @@ $data6 = array();
 while($row6=mysqli_fetch_assoc($staff)){
     $data6[] = array( 
         'id'=>$row6['id'],
-        'staff'=>$row6['transporter_name']
+        'staff'=>$row6['transporter_name'],
+        'staffIc'=>$row6['transporter_ic']
     );
 }
 

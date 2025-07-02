@@ -184,7 +184,7 @@ if ($user != null && $user != ''){
 
                             <div class="col-xxl-12 col-lg-12">
                                 <div class="card">
-                                    <div class="card-header fs-5 text-white" href="#collapseSearch" data-bs-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseSearch" style="background-color: #405189;">
+                                    <div class="card-header fs-5" href="#collapseSearch" data-bs-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseSearch" style="background-color: #a8d190;">
                                         <i class="mdi mdi-chevron-down pull-right"></i>
                                         Search Records
                                     </div>
@@ -212,7 +212,6 @@ if ($user != null && $user != ''){
                                                                 <option value="Sales">Sales</option>
                                                                 <option value="Purchase">Purchase</option>
                                                                 <option value="Local">Local</option>
-                                                                <option value="Rental">Rental</option>
                                                                 <option value="Misc">Misc</option>
                                                             </select>
                                                         </div>
@@ -463,7 +462,6 @@ if ($user != null && $user != ''){
                                                                                                     <option value="Sales" selected>Sales</option>
                                                                                                     <option value="Purchase">Purchase</option>
                                                                                                     <option value="Local">Local</option>
-                                                                                                    <option value="Rental">Rental</option>
                                                                                                     <option value="Misc">Misc</option>
                                                                                                 </select>  
                                                                                             </div>
@@ -1104,10 +1102,10 @@ if ($user != null && $user != ''){
                                         <div class="row">
                                             <div class="col-lg-12">
                                                 <div class="card">
-                                                    <div class="card-header" style="background-color: #405189;">
+                                                    <div class="card-header" style="background-color: #a8d190;">
                                                         <div class="d-flex justify-content-between">
                                                             <div>
-                                                                <h5 class="card-title mb-0 text-white">Previous Records</h5>
+                                                                <h5 class="card-title mb-0">Previous Records</h5>
                                                             </div>
                                                             <div class="flex-shrink-0">
                                                                 <button type="button" id="exportPdf" class="btn btn-info waves-effect waves-light">
@@ -1509,7 +1507,6 @@ if ($user != null && $user != ''){
                             dropdownMenu += '<li><a class="dropdown-item approval-item-btn" id="approve' + data + '" onclick="approve(' + data + ')"><i class="ri-check-fill align-bottom me-2 text-muted"></i> Approval</a></li>';
                         }
 
-                        dropdownMenu += '<li><a class="dropdown-item complete-item-btn" id="complete' + data + '" onclick="complete(' + data + ')"><i class="ri-task-fill align-bottom me-2 text-muted"></i> Complete</a></li>';
                         dropdownMenu += '<li><a class="dropdown-item remove-item-btn" id="deactivate' + data + '" onclick="deactivate(' + data + ')"><i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i> Cancel</a></li>';
 
                         dropdownMenu += '</ul></div>';
@@ -2341,7 +2338,6 @@ if ($user != null && $user != ''){
                                 dropdownMenu += '<li><a class="dropdown-item approval-item-btn" id="approve' + data + '" onclick="approve(' + data + ')"><i class="ri-check-fill align-bottom me-2 text-muted"></i> Approval</a></li>';
                             }
 
-                            dropdownMenu += '<li><a class="dropdown-item complete-item-btn" id="complete' + data + '" onclick="complete(' + data + ')"><i class="ri-task-fill align-bottom me-2 text-muted"></i> Complete</a></li>';
                             dropdownMenu += '<li><a class="dropdown-item remove-item-btn" id="deactivate' + data + '" onclick="deactivate(' + data + ')"><i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i> Cancel</a></li>';
 
                             dropdownMenu += '</ul></div>';
@@ -3691,32 +3687,6 @@ if ($user != null && $user != ''){
         });
     }
 
-    function complete(id){
-        $('#spinnerLoading').show();
-        if (confirm('Are you sure you want to complete this item?')) {
-            $.post('php/completeWeight.php', {userID: id}, function(data){
-                var obj = JSON.parse(data);
-                if(obj.status === 'success'){
-                    $('#spinnerLoading').hide();
-                    table.ajax.reload();
-                    $("#successBtn").attr('data-toast-text', obj.message);
-                    $("#successBtn").click();
-                }
-                else if(obj.status === 'failed'){
-                    $('#spinnerLoading').hide();
-                    $("#failBtn").attr('data-toast-text', obj.message );
-                    $("#failBtn").click();
-                }
-                else{
-                    $('#spinnerLoading').hide();
-                    $("#failBtn").attr('data-toast-text', obj.message );
-                    $("#failBtn").click();
-                }
-                $('#spinnerLoading').hide();
-            });
-        }
-    }
-
     function deactivate(id){
         $('#spinnerLoading').show();
         if (confirm('Are you sure you want to cancel this item?')) {
@@ -3754,14 +3724,10 @@ if ($user != null && $user != ''){
                 }, 500);
             }
             else if(obj.status === 'failed'){
-                $('#spinnerLoading').hide();
-                $("#failBtn").attr('data-toast-text', obj.message );
-                $("#failBtn").click();
+                toastr["error"](obj.message, "Failed:");
             }
             else{
-                $('#spinnerLoading').hide();
-                $("#failBtn").attr('data-toast-text', 'Something went wrong when print' );
-                $("#failBtn").click();
+                toastr["error"]("Something wrong when activate", "Failed:");
             }
         });
     }

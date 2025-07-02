@@ -52,7 +52,6 @@ while($row = $result->fetch_assoc()){
                 $message[] = array( 
                     'id'=>$row['id'],
                     'serial_no'=>$row['serial_no'],
-                    "booking_date"=>$row['booking_date'],
                     'po_no'=>$row['po_no'],
                     'group_no'=>$row['group_no'],
                     'customer'=>$row['customer'],
@@ -75,8 +74,7 @@ while($row = $result->fetch_assoc()){
                     'grade'=>$row['grade'],
                     'gender'=>$row['gender'],
                     'house_no'=>$row['house_no'],
-                    'remark'=>$row['remark'],
-                    'status'=>$row['status']
+                    'remark'=>$row['remark']
                 );
                 
                 array_push($checking, $row['id']);
@@ -111,8 +109,7 @@ while($row = $result->fetch_assoc()){
                 'grade'=>$row['grade'],
                 'gender'=>$row['gender'],
                 'house_no'=>$row['house_no'],
-                'remark'=>$row['remark'],
-                'status'=>$row['status']
+                'remark'=>$row['remark']
             );
             
             array_push($checking, $row['id']);

@@ -1,7 +1,11 @@
 <?php
 require_once 'db_connect.php';
 
-$staff = $db->query("SELECT * FROM staff WHERE deleted = '0'");
+$post = json_decode(file_get_contents('php://input'), true);
+
+$staffId = $post['userId'];
+
+$staff = $db->query("SELECT * FROM staff WHERE deleted = '0' AND customer = '".$staffId."'");
 
 $data6 = array();
 

@@ -7,7 +7,6 @@ $salesList = array();
 $purchaseList = array();
 $localList = array();
 $miscList = array();
-$rentalList = array();
 $count = 0;
 
 $salesList2 = array();
@@ -32,13 +31,6 @@ while($row=mysqli_fetch_assoc($weighing)){
     }
     else if($row['transaction_status'] == 'Misc'){
         $miscList[] = array(
-            "id" => $row['id'],
-            "transaction_id" => $row['transaction_id'],
-            "weight_type" => $row['weight_type']
-        );
-    }
-    else if($row['transaction_status'] == 'Rental'){
-        $rentalList[] = array(
             "id" => $row['id'],
             "transaction_id" => $row['transaction_id'],
             "weight_type" => $row['weight_type']
@@ -77,7 +69,7 @@ while($row2=mysqli_fetch_assoc($weighing2)){
     }
 }
 
-$count = count($salesList) + count($purchaseList) + count($localList) + count($miscList) + count($rentalList);
+$count = count($salesList) + count($purchaseList) + count($localList) + count($miscList);
 $count2 = count($salesList2) + count($purchaseList2) + count($localList2);
 
 $compids = '1';
@@ -93,7 +85,7 @@ if ($rowc = $resultC->fetch_assoc()) {
 
 $date = date('d/m/Y - h:i:sA');
 ?>
-<header id="page-topbar" >
+<header id="page-topbar" style="background-color: #316b31;">
     <div class="layout-width">
         <div class="navbar-header">
             <div class="d-flex">
@@ -127,7 +119,7 @@ $date = date('d/m/Y - h:i:sA');
                     </span>
                 </button>
 
-                <h3 style="margin-top: 4%"><?=$compname ?></h3>
+                <h3 style="color: white; margin-top: 4%"><?=$compname ?></h3>
 
                 <!-- App Search-->
                 <!--form class="app-search d-none d-md-block">
@@ -679,7 +671,7 @@ $date = date('d/m/Y - h:i:sA');
                 <div class="dropdown topbar-head-dropdown ms-1 header-item" id="notificationDropdown">
                     <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle"
                         id="page-header-notifications-dropdown" data-bs-toggle="dropdown" data-bs-auto-close="outside"
-                        aria-haspopup="true" aria-expanded="false">
+                        aria-haspopup="true" aria-expanded="false" style="color: white;">
                         <i class='bx bx-bell fs-22'></i>
                         <span class="position-absolute topbar-badge fs-10 translate-middle badge rounded-pill bg-danger"><?=$count ?>
                         <span class="visually-hidden">unread messages</span></span>
@@ -687,7 +679,7 @@ $date = date('d/m/Y - h:i:sA');
                     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0"
                         aria-labelledby="page-header-notifications-dropdown">
 
-                        <div class="dropdown-head bg-primary bg-pattern rounded-top">
+                        <div class="dropdown-head bg-pattern rounded-top" style="background-color: #548233;">
                             <div class="p-3">
                                 <div class="row align-items-center">
                                     <div class="col">
@@ -721,15 +713,9 @@ $date = date('d/m/Y - h:i:sA');
                                         </a>
                                     </li>
                                     <li class="nav-item waves-effect waves-light">
-                                        <a class="nav-link" data-bs-toggle="tab" href="#misc-tab" role="tab"
+                                        <a class="nav-link" data-bs-toggle="tab" href="#alerts-tab" role="tab"
                                             aria-selected="false">
                                             Misc <?php echo (count($miscList) == 0 ? '' : '('.count($miscList).')'); ?>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item waves-effect waves-light">
-                                        <a class="nav-link" data-bs-toggle="tab" href="#rental-tab" role="tab"
-                                            aria-selected="false">
-                                            Rental <?php echo (count($rentalList) == 0 ? '' : '('.count($rentalList).')'); ?>
                                         </a>
                                     </li>
                                 </ul>
@@ -792,32 +778,14 @@ $date = date('d/m/Y - h:i:sA');
                                 </div>
                             </div>
 
-                            <div class="tab-pane fade p-4" id="misc-tab" role="tabpanel" aria-labelledby="misc-tab">
+                            <div class="tab-pane fade p-4" id="alerts-tab" role="tabpanel" aria-labelledby="alerts-tab">
                                 <div data-simplebar style="max-height: 300px;" class="pe-2">
                                     <?php for($i=0; $i<count($miscList); $i++){ ?>
                                         <div class="text-reset notification-item d-block dropdown-item position-relative">
                                             <div class="d-flex">
                                                 <div class="flex-1">
                                                     <a href="index.php?weight=<?=$miscList[$i]['id'] ?>" class="stretched-link">
-                                                        <h6 class="mt-0 mb-2 lh-base">There is a <?=$miscList[$i]['weight_type'] ?> weighing with <b><?=$miscList[$i]['transaction_id'] ?></b>
-                                                            is <span class="text-secondary">Pending</span>
-                                                        </h6>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    <?php } ?>
-                                </div>
-                            </div>
-
-                            <div class="tab-pane fade p-4" id="rental-tab" role="tabpanel" aria-labelledby="rental-tab">
-                                <div data-simplebar style="max-height: 300px;" class="pe-2">
-                                    <?php for($i=0; $i<count($rentalList); $i++){ ?>
-                                        <div class="text-reset notification-item d-block dropdown-item position-relative">
-                                            <div class="d-flex">
-                                                <div class="flex-1">
-                                                    <a href="index.php?weight=<?=$rentalList[$i]['id'] ?>" class="stretched-link">
-                                                        <h6 class="mt-0 mb-2 lh-base">There is a <?=$rentalList[$i]['weight_type'] ?> weighing with <b><?=$rentalList[$i]['transaction_id'] ?></b>
+                                                        <h6 class="mt-0 mb-2 lh-base">There is a <?=$miscList[$i]['weight_type'] ?> weighing with <b><?=$localList[$i]['transaction_id'] ?></b>
                                                             is <span class="text-secondary">Pending</span>
                                                         </h6>
                                                     </a>
@@ -839,7 +807,7 @@ $date = date('d/m/Y - h:i:sA');
                     </div>
                 </div>
 
-                <div class="dropdown ms-sm-3 header-item topbar-user">
+                <div class="dropdown ms-sm-3 header-item topbar-user" style="background-color: #a8d190;">
                     <button type="button" class="btn" id="page-header-user-dropdown" data-bs-toggle="dropdown"
                         aria-haspopup="true" aria-expanded="false">
                         <span class="d-flex align-items-center">
