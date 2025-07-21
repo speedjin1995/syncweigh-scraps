@@ -129,8 +129,8 @@ if(isset($_GET['plant']) && $_GET['plant'] != null && $_GET['plant'] != '' && $_
 
 // Column names 
 if ($_GET["type"] == 'Weighing'){
-    $fields = array('TRANSACTION ID', 'WEIGHT STATUS', 'WEIGHT TYPE', 'VEHICLE', 'GROSS INCOMING (KG)', 'INCOMING DATE', 'TARE OUTGOING (KG)', 
-    'OUTGOING DATE', 'NETT WEIGHT (KG)'); 
+    $fields = array('TRANSACTION ID', 'CUSTOMER/SUPPLIER', 'TIN NO', 'WEIGHT STATUS', 'WEIGHT TYPE', 'VEHICLE', 'GROSS INCOMING (KG)', 'INCOMING DATE', 'TARE OUTGOING (KG)', 
+    'OUTGOING DATE', 'NETT WEIGHT (KG)', 'SUBTOTAL PRICE (RM)', 'WEIGHTED BY'); 
 
     // Fetch records from database
     if($_GET["file"] == 'weight'){
@@ -197,8 +197,36 @@ if($query->num_rows > 0){
         $lineData = [];
         if ($_GET["type"] == 'Weighing'){
             if($_GET["file"] == 'weight'){
-                $lineData = array($row['transaction_id'], $row['transaction_status'], $row['weight_type'], $row['lorry_plate_no1'], $row['gross_weight1'], 
-                $row['gross_weight1_date'], $row['tare_weight1'], $row['tare_weight1_date'], $row['nett_weight1']);
+                $custSuppName = '';
+                $custSuppTinNo = '';
+                if ($row['transaction_status'] == 'Sales' || $row['transaction_status'] == 'Misc') {
+                    if ($customer_stmt = $db->prepare("SELECT * FROM Customer WHERE customer_code=? AND status = '0'")) {
+                        $customer_stmt->bind_param('s', $row['customer_code']);
+                        $customer_stmt->execute();
+                        $customer_result = $customer_stmt->get_result();
+                        
+                        if ($row2 = $customer_result->fetch_assoc()) {
+                            $custSuppName = $row2['name'];
+                            $custSuppTinNo = $row2['tin_no'];
+                        }
+                    } 
+                } else {
+                    if ($customer_stmt = $db->prepare("SELECT * FROM Supplier WHERE supplier_code=? AND status = '0'")) {
+                        $customer_stmt->bind_param('s', $row['supplier_code']);
+                        $customer_stmt->execute();
+                        $customer_result = $customer_stmt->get_result();
+                        
+                        if ($row2 = $customer_result->fetch_assoc()) {
+                            $custSuppName = $row2['name'];
+                            $custSuppTinNo = $row2['tin_no'];
+                        } 
+                    }
+                }
+
+                $totalPrice = number_format((float)$row['total_price'], 2, '.', ',');
+
+                $lineData = array($row['transaction_id'], $custSuppName, $custSuppTinNo, $row['transaction_status'], $row['weight_type'], $row['lorry_plate_no1'], $row['gross_weight1'], 
+                $row['gross_weight1_date'], $row['tare_weight1'], $row['tare_weight1_date'], $row['nett_weight1'], $totalPrice, $row['modified_by']);
             }
 
             array_walk($lineData, 'filterData'); 
