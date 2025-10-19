@@ -752,3 +752,12 @@ BEGIN
 END
 $$
 DELIMITER ; 
+
+-- 19/10/2025 --
+ALTER TABLE `Weight_Product` CHANGE `percentage` `percentage` VARCHAR(5) NOT NULL DEFAULT '0';
+
+ALTER TABLE `Weight_Product` CHANGE `item_weight` `item_weight` VARCHAR(20) NOT NULL DEFAULT '0';
+
+ALTER TABLE `Weight_Product` CHANGE `reduce_weight` `reduce_weight` VARCHAR(20) NULL DEFAULT NULL;
+
+ALTER TABLE `Weight_Product` CHANGE `total_weight` `total_weight` VARCHAR(20) NULL DEFAULT NULL;
