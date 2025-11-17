@@ -627,7 +627,7 @@ if ($user != null && $user != ''){
             'serverSide': true,
             'searching': true,
             'serverMethod': 'post',
-            'lengthMenu': [[10, 25, 50, 100, 500], [10, 25, 50, 100, 500]],
+            'lengthMenu': [[10, 25, 50, 100, 500, 1000], [10, 25, 50, 100, 500, 1000]],
             'ajax': {
                 'url':'php/filterReports.php',
                 'data': {
@@ -694,7 +694,7 @@ if ($user != null && $user != ''){
                 'serverSide': true,
                 'searching': true,
                 'serverMethod': 'post',
-                'lengthMenu': [[10, 25, 50, 100, 500], [10, 25, 50, 100, 500]],
+                'lengthMenu': [[10, 25, 50, 100, 500, 1000], [10, 25, 50, 100, 500, 1000]],
                 'ajax': {
                     'url':'php/filterReports.php',
                     'data': {
