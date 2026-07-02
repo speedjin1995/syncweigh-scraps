@@ -1453,6 +1453,7 @@ if ($user != null && $user != ''){
             'serverSide': true,
             'searching': true,
             'serverMethod': 'post',
+            'lengthMenu': [[10, 25, 50, 100, 500, 1000], [10, 25, 50, 100, 500, 1000]],
             'ajax': {
                 'url':'php/filterWeight.php',
                 'data': {
@@ -2284,6 +2285,7 @@ if ($user != null && $user != ''){
                 'serverSide': true,
                 'searching': true,
                 'serverMethod': 'post',
+                'lengthMenu': [[10, 25, 50, 100, 500, 1000], [10, 25, 50, 100, 500, 1000]],
                 'ajax': {
                     'url':'php/filterWeight.php',
                     'data': {
